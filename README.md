@@ -1,61 +1,56 @@
 # Backend Engineering Take-Home Challenge
 
 ### Introduction
-In this challenge, you will be tasked with creating a simple ETL pipeline that can be triggered via an API call. You will be provided with a set of CSV files that you will need to process, derive some features from, and then upload into a database table.
+This app is a simple ETL pipeline that can be triggered via an API call. A set of CSV files will be processed, derived some features from, and then uploaded into a postgres database table.
+
 
 ### Requirements
-- Python 3.7+
-- Docker
-- PostgreSQL
+To run this app, you will need:
+- Python 3.9.x
+- [Docker](https://docs.docker.com/get-docker/)
 
-### Challenge
-1.  Create a Dockerized application that can be started with a single `docker run` command.
-
-2. The application should expose an API endpoint that triggers an ETL process.
-
-3. The ETL process should:
-- Load CSV files from the given data directory.
- - Process these files to derive some simple features.
- - Upload the processed data into a **postgres** table.
-
-4.  The application should be built using Python and any tooling you like for coordinating the workflow and fronting the api server
-
-### Data
-You will find three CSV files in the `data`  directory:
-
-- `users.csv`: Contains user data with the following columns: `user_id`, `name`, `email`,`signup_date`.
-
-- `user_experiments.csv`: Contains experiment data with the following columns: `experiment_id`, `user_id`, `experiment_compound_ids`, `experiment_run_time`. The `experiment_compound_ids` column contains a semicolon-separated list of compound IDs.
+## Build
+To build the docker image, run in a new terminal
+```
+docker-compose build
+``` 
 
 
-- `compounds.csv`: Contains compound data with the following columns: `compound_id`, `compound_name`, `compound_structure`.
+## Run
+To build and run this app, run 
 
+```
+sh run.sh
+``` 
 
-## Feature Derivation
-From the provided CSV files, derive the following features:
+This will build and run the container using docker-compose and the provided Dockerfile. 
 
-1. Total experiments a user ran.
-2. Average experiments amount per user.
-3. User's most commonly experimented compound.
+To run a built image in a container, run 
 
-## Deliverables
-Please provide the following in a GITHUB REPOSITORY.
+```
+docker-compose up
+```
 
-1. A Dockerfile that sets up the environment for your application.
-2. A requirements.txt file with all the Python dependencies.
-3. A Python script that sets up the API and the ETL process.
-4. A brief README explaining how to build and run your application, and how to trigger the ETL process.
+## Trigger
+The trigger to run the `etl()` process is by sending a `GET` request to the `/trigger` endpoint. Simply run 
 
+```
+curl -i http://localhost:5000/trigger
+``` 
 
-Please also provide a script that builds, and runs the docker container. 
-You should also provide a script that scaffolds how a user can run the ETL process. This can be `curl` or something else.
-Finally, provide a script that queries the database and showcases that it has been populated with the desired features.
+or, on a web browser, go to 
 
+```
+http://localhost:5000/trigger
+``` 
 
-## Evaluation
-Your solution will be evaluated on the following criteria:
+## Postgres Database
 
-Code quality and organization.
-Proper use of Python and Docker.
-Successful execution of the ETL process.
-Accuracy of the derived features.
+The postgres database is a service attached to the app's container. To access the postgres tables, open Docker Desktop, then in the Containers tab, select `backend_takehome`, then `postgres-container`. Once inside, go to the `Terminal` tab and run 
+```
+psql -U postgres
+```
+to access the psql cli. Once here, you can run `\dt` to list all tables, or run queries like `SELECT * from users;` to view data inside the table.
+
+## Changing The Data
+You can change the data files by adding/modifying the files under `./data` directory. Make sure to include `compounds.csv`, `users_experiments.csv`, and `users.csv` files for etl features to return.

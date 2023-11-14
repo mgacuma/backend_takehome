@@ -44,13 +44,15 @@ or, on a web browser, go to
 http://localhost:5000/trigger
 ``` 
 
-## Postgres Database
+## Viewing The Postgres Database
 
-The postgres database is a service attached to the app's container. To access the postgres tables, open Docker Desktop, then in the Containers tab, select `backend_takehome`, then `postgres-container`. Once inside, go to the `Terminal` tab and run 
+The postgres database is a service attached to the app's container. To access the postgres tables, open Docker Desktop, then in the Containers tab, select `etl-app`, then `postgres-container`. Once inside, go to the `Terminal` tab and run 
 ```
 psql -U postgres
 ```
 to access the psql cli. Once here, you can run `\dt` to list all tables, or run queries like `SELECT * from users;` to view data inside the table.
+
+
 
 ## Changing The Data
 You can change the data files by adding/modifying the files under `./data` directory. Make sure to include `compounds.csv`, `users_experiments.csv`, and `users.csv` files for etl features to return.

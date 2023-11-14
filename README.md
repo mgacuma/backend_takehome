@@ -1,4 +1,4 @@
-# Backend Engineering Take-Home Challenge
+# ETL App
 
 ### Introduction
 This app is a simple ETL pipeline that can be triggered via an API call. A set of CSV files will be processed, derived some features from, and then uploaded into a postgres database table.
